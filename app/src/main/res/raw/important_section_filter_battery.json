@@ -46,7 +46,16 @@
   },
   {
     "card": "multiple",
-    "name": "Technical Specifications",
+    "name": [
+      {
+        "language": "en",
+        "text": "Technical Specifications"
+      },
+      {
+        "language": "de",
+        "text": "Technische Spezifikationen"
+      }
+    ],
     "value": [
       {
         "nested": false,
