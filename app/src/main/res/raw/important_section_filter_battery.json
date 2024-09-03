@@ -1,0 +1,68 @@
+[
+  {
+    "card": "single",
+    "value": {
+      "nested": false,
+      "idShortPath": "CarbonFootprint.ProductCarbonFootprint.PCFCO2eq"
+    },
+    "unitPath": "CarbonFootprint.ProductCarbonFootprint.PCFQuantityOfMeasureForCalculation"
+  },
+  {
+    "card": "single",
+    "value": {
+      "nested": false,
+      "idShortPath": "Maintenance.WarrantyExpiration"
+    }
+  },
+  {
+    "card": "multiple",
+    "value": {
+      "nested": true,
+      "idShortPath": "EnvironmentalImpact.MaterialComposition"
+    }
+  },
+  {
+    "card": "multiple",
+    "name": [
+      {
+        "language": "en",
+        "text": "Certification"
+      },
+      {
+        "language": "de",
+        "text": "Zertifikate"
+      }
+    ],
+    "value": [
+      {
+        "nested": false,
+        "idShortPath": "Certifications.CertificationName"
+      },
+      {
+        "nested": false,
+        "idShortPath": "Certifications.CertificationNumber"
+      }
+    ]
+  },
+  {
+    "card": "multiple",
+    "name": "Technical Specifications",
+    "value": [
+      {
+        "nested": false,
+        "idShortPath": "TechnicalSpecification.Capacity"
+      },
+      {
+        "nested": false,
+        "idShortPath": "TechnicalSpecification.CellType"
+      }
+    ]
+  },
+  {
+    "card": "multiple",
+    "value": {
+      "nested": true,
+      "idShortPath": "TechnicalSpecification.PhysicalCharacteristics"
+    }
+  }
+]

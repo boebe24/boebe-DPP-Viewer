@@ -1,0 +1,47 @@
+{
+  "idShort": "Steps",
+  "displayName": [
+    {
+      "language": "en",
+      "text": "Steps of Construction"
+    },
+    {
+      "language": "de",
+      "text": "Bauschritte"
+    }
+  ],
+  "typeValueListElement": "SubmodelElement",
+  "value": [
+    {
+      "idShort": "StepOne",
+      "value": [
+        {
+          "language": "en",
+          "text": "Assemble the dump truck as per the manual in the package."
+        }
+      ],
+      "modelType": "MultiLanguageProperty"
+    },
+    {
+      "idShort": "StepTwo",
+      "value": [
+        {
+          "language": "en",
+          "text": "Put simulated props into the carriage."
+        }
+      ],
+      "modelType": "MultiLanguageProperty"
+    },
+    {
+      "idShort": "StepThree",
+      "value": [
+        {
+          "language": "en",
+          "text": "Pull to tilt the carriage to dump."
+        }
+      ],
+      "modelType": "MultiLanguageProperty"
+    }
+  ],
+  "modelType": "SubmodelElementList"
+}

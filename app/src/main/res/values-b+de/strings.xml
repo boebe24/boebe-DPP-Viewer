@@ -1,0 +1,32 @@
+<resources>
+    <string name="section_title_general">Allgemein</string>
+    <string name="section_title_important">Wichtig</string>
+    <string name="section_title_other">Sonstige Informationen</string>
+    <string name="section_title_everything">Alle Informationen</string>
+    <string name="import_button_text">Importieren</string>
+    <string name="import_options_text">Importoptionen</string>
+    <string name="scan_qr_code_text">QR-Code scannen</string>
+    <string name="scan_from_photo_text">Vom Foto scannen</string>
+    <string name="scan_qr_code_found_text">QR-Code gefunden</string>
+    <string name="dismiss">Abbrechen</string>
+    <string name="scan_qr_code_result_open_text">Öffnen</string>
+    <string name="scan_qr_code_result_load_text" >Lädt…</string>
+    <string name="enter_url_manually">URL manuell eingeben</string>
+    <string name="submit">Weiter</string>
+    <string name="enter_url_placeholder">URL eingeben</string>
+    <string name="error_no_internet">Fehler beim Verbinden zum Server. Prüfe deine Internetverbindung.</string>
+    <string name="error_invalid_url">URL ist ungültig</string>
+    <string name="error_invalid_qr">QR Code ist ungültig</string>
+    <string name="error_no_qr_in_photo">Kein QR Code im Foto gefunden</string>
+    <string name="refresh">Aktualisieren</string>
+    <string name="view_raw_information">Rohdaten ansehen</string>
+    <string name="more_options">Mehr Optionen</string>
+    <string name="copy_url">URL kopieren</string>
+    <string name="request_camera_permission">Kamerazugriff anfragen</string>
+    <string name="turn_off_flash">Blitz deaktivieren</string>
+    <string name="turn_on_flash">Blitz aktivieren</string>
+    <string name="allow_camera_access">Kamerazugriff erlauben</string>
+    <string name="camera_icon">Kamerasymbol</string>
+    <string name="qr_scanner_icon">QR Scanner Symbol</string>
+    <string name="error_occurred">Fehler aufgetreten</string>
+</resources>

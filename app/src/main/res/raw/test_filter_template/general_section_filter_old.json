@@ -1,0 +1,25 @@
+[
+  {
+    "nested": false,
+    "idShortPath": "DigitalNameplate.ManufacturerProductDesignation"
+  },
+  {
+    "nested": false,
+    "idShortPath": "DigitalNameplate.ManufacturerProductType"
+  },
+  {
+    "nested": false,
+    "idShortPath": "DigitalNameplate.ManufacturerName"
+  },
+  {
+    "nested": false,
+    "idShortPath": "CarbonFootprint.ProductCarbonFootprint.PCFCO2eq",
+    "unitPath":"CarbonFootprint.ProductCarbonFootprint.PCFQuantityOfMeasureForCalculation"
+  },
+  {
+    "nested": false,
+    "idShortPath": "CarbonFootprint.TransportCarbonFootprint.TCFCO2eq",
+    "unit": "kg"
+  }
+]
+

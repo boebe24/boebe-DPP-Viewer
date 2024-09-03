@@ -1,0 +1,115 @@
+{
+  "modelType": "Submodel",
+  "kind": "Instance",
+  "id": "https://example.com/ids/sm/4001_9071_4042_5579",
+  "idShort": "Maintenance",
+  "submodelElements": [
+    {
+      "modelType": "SubmodelElementCollection",
+      "idShort": "Repair",
+      "value": [
+        {
+          "modelType": "Property",
+          "value": "Authorized Service Providers",
+          "valueType": "xs:string",
+          "idShort": "AvailabilityOfSpareParts"
+        },
+        {
+          "modelType": "Property",
+          "value": "Proprietary",
+          "valueType": "xs:string",
+          "idShort": "Tools"
+        },
+        {
+          "modelType": "Property",
+          "value": "Workshop",
+          "valueType": "xs:string",
+          "idShort": "Environment"
+        },
+        {
+          "modelType": "Property",
+          "value": "Generalist",
+          "valueType": "xs:string",
+          "idShort": "SkillLevel"
+        },
+        {
+          "modelType": "Property",
+          "value": "Integrated",
+          "valueType": "xs:string",
+          "idShort": "RemovalOfPersonalData"
+        },
+        {
+          "modelType": "SubmodelElementCollection",
+          "idShort": "ReturnOptions",
+          "value": [
+            {
+              "modelType": "Property",
+              "idShort": "ReturnOption"
+            },
+            {
+              "modelType": "SubmodelElementCollection",
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/zvei/nameplate/1/0/ContactInformations/ContactInformation"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "ContactInformation",
+              "value": [
+                {
+                  "modelType": "Property",
+                  "idShort": "RoleOfContactPerson"
+                },
+                {
+                  "modelType": "MultiLanguageProperty",
+                  "idShort": "NationalCode"
+                },
+                {
+                  "modelType": "Property",
+                  "idShort": "Language"
+                },
+                {
+                  "modelType": "Property",
+                  "idShort": "TimeZone"
+                },
+                {
+                  "modelType": "MultiLanguageProperty",
+                  "idShort": "CityTown"
+                },
+                {
+                  "modelType": "MultiLanguageProperty",
+                  "idShort": "Company"
+                },
+                {
+                  "modelType": "MultiLanguageProperty",
+                  "idShort": "Department"
+                },
+                {
+                  "modelType": "SubmodelElementCollection",
+                  "idShort": "Phone",
+                  "value": [
+                    {
+                      "modelType": "MultiLanguageProperty",
+                      "idShort": "TelephoneNumber"
+                    },
+                    {
+                      "modelType": "Property",
+                      "idShort": "TypeOfTelephone"
+                    },
+                    {
+                      "modelType": "MultiLanguageProperty",
+                      "idShort": "AvailableTime"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

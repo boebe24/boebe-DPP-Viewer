@@ -1,0 +1,30 @@
+{
+  "modelType": "AssetAdministrationShell",
+  "assetInformation": {
+    "assetKind": "Instance",
+    "assetType": "",
+    "globalAssetId": "https://battery-manufacturer.com/ids/asset/0473_7071_4042_7402"
+  },
+  "submodels": [
+    {
+      "keys": [
+        {
+          "type": "Submodel",
+          "value": "https://example.com/ids/sm/4001_9071_4042_5579"
+        }
+      ],
+      "type": "ExternalReference"
+    },
+    {
+      "keys": [
+        {
+          "type": "Submodel",
+          "value": "https://example.com/ids/sm/0341_1260_7042_7305"
+        }
+      ],
+      "type": "ModelReference"
+    }
+  ],
+  "id": "https://example.com/ids/sm/5151_9160_7042_9566",
+  "idShort": "Battery_DPP"
+}

@@ -1,0 +1,84 @@
+{
+  "modelType": "AssetAdministrationShell",
+  "assetInformation": {
+    "assetKind": "Instance",
+    "assetType": "",
+    "globalAssetId": "https://battery-manufacturer.com/ids/asset/0473_7071_4042_7402"
+  },
+  "submodels": [
+    {
+      "keys": [
+        {
+          "type": "Submodel",
+          "value": "https://example.com/ids/sm/4001_9071_4042_5579"
+        }
+      ],
+      "type": "ExternalReference"
+    },
+    {
+      "keys": [
+        {
+          "type": "Submodel",
+          "value": "https://example.com/ids/sm/0341_1260_7042_7305"
+        }
+      ],
+      "type": "ModelReference"
+    },
+    {
+      "keys": [
+        {
+          "type": "Submodel",
+          "value": "https://example.com/ids/sm/4175_8132_7042_7927"
+        }
+      ],
+      "type": "ModelReference"
+    },
+    {
+      "keys": [
+        {
+          "type": "Submodel",
+          "value": "https://example.com/ids/sm/9143_8002_7042_7188"
+        }
+      ],
+      "type": "ExternalReference"
+    },
+    {
+      "keys": [
+        {
+          "type": "Submodel",
+          "value": "https://example.com/ids/sm/6112_9132_7042_1308"
+        }
+      ],
+      "type": "ModelReference"
+    },
+    {
+      "keys": [
+        {
+          "type": "Submodel",
+          "value": "https://example.com/ids/sm/2385_2162_7042_4842"
+        }
+      ],
+      "type": "ExternalReference"
+    },
+    {
+      "keys": [
+        {
+          "type": "Submodel",
+          "value": "https://example.com/ids/sm/4184_0262_7042_1629"
+        }
+      ],
+      "type": "ExternalReference"
+    },
+    {
+      "keys": [
+        {
+          "type": "Submodel",
+          "value": "https://example.com/ids/sm/7194_0262_7042_1951"
+        }
+      ],
+      "type": "ExternalReference"
+    }
+  ],
+  "id": "https://example.com/ids/sm/9143_8002_7042_5188",
+  "idShort": "Battery_DPP"
+}

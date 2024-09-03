@@ -1,0 +1,111 @@
+{
+  "modelType": "AssetAdministrationShell",
+  "assetInformation": {
+    "assetKind": "Instance",
+    "assetType": "",
+    "globalAssetId": "https://example.com/ids/asset/7073_9041_7042_8625"
+  },
+  "submodels": [
+    {
+      "keys": [
+        {
+          "type": "Submodel",
+          "value": "https://example.com/ids/sm/9491_9132_7042_5042"
+        }
+      ],
+      "type": "ModelReference"
+    },
+    {
+      "keys": [
+        {
+          "type": "Submodel",
+          "value": "https://example.com/ids/sm/8375_7032_4042_6030"
+        }
+      ],
+      "type": "ExternalReference"
+    },
+    {
+      "keys": [
+        {
+          "type": "Submodel",
+          "value": "https://example.com/ids/sm/5475_9041_7042_2309"
+        }
+      ],
+      "type": "ModelReference"
+    },
+    {
+      "keys": [
+        {
+          "type": "Submodel",
+          "value": "https://example.com/ids/sm/3540_0141_7042_1427"
+        }
+      ],
+      "type": "ModelReference"
+    },
+    {
+      "keys": [
+        {
+          "type": "Submodel",
+          "value": "https://example.com/ids/sm/2180_0141_7042_8052"
+        }
+      ],
+      "type": "ModelReference"
+    },
+    {
+      "keys": [
+        {
+          "type": "Submodel",
+          "value": "https://example.com/ids/sm/5351_0141_7042_5979"
+        }
+      ],
+      "type": "ExternalReference"
+    },
+    {
+      "keys": [
+        {
+          "type": "Submodel",
+          "value": "https://example.com/ids/sm/8101_1141_7042_8856"
+        }
+      ],
+      "type": "ExternalReference"
+    },
+    {
+      "keys": [
+        {
+          "type": "Submodel",
+          "value": "https://example.com/ids/sm/7365_2162_7042_5835"
+        }
+      ],
+      "type": "ExternalReference"
+    },
+    {
+      "keys": [
+        {
+          "type": "Submodel",
+          "value": "https://example.com/ids/sm/9503_7171_7042_4884"
+        }
+      ],
+      "type": "ExternalReference"
+    },
+    {
+      "keys": [
+        {
+          "type": "Submodel",
+          "value": "https://example.com/ids/sm/7244_8002_7042_0078"
+        }
+      ],
+      "type": "ExternalReference"
+    },
+    {
+      "keys": [
+        {
+          "type": "Submodel",
+          "value": "https://example.com/ids/sm/4312_9132_7042_5430"
+        }
+      ],
+      "type": "ModelReference"
+    }
+  ],
+  "id": "https://example.com/ids/sm/7244_8002_7042_7968",
+  "idShort": "Textile_DPP"
+}

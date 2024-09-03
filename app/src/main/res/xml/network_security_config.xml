@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!-- is HTTP allowed or not-->
+    <base-config cleartextTrafficPermitted="false">
+        <trust-anchors>
+            <!-- Trust system certificates -->
+            <certificates src="system"/>
+            <!-- Trust our self-signed certificates  -->
+            <certificates src="@raw/boebe_bundle"/>
+        </trust-anchors>
+    </base-config>
+</network-security-config>

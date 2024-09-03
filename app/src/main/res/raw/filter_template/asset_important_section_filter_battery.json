@@ -1,0 +1,51 @@
+[
+  {
+    "card": "single",
+    "value": {
+      "nested": false,
+      "idShortPath": "Maintenance.Repair.SkillLevel"
+    }
+  },
+  {
+    "card": "multiple",
+    "value": {
+      "nested": true,
+      "idShortPath": "EnvironmentalImpact.MaterialComposition"
+    }
+  },
+  {
+    "card": "multiple",
+    "name": "Certification Information",
+    "value": [
+      {
+        "nested": false,
+        "idShortPath": "Certifications.CertificationName"
+      },
+      {
+        "nested": false,
+        "idShortPath": "Certifications.CertificationNumber"
+      }
+    ]
+  },
+  {
+    "card": "multiple",
+    "name": "Technical Specifications",
+    "value": [
+      {
+        "nested": false,
+        "idShortPath": "TechnicalSpecification.Capacity"
+      },
+      {
+        "nested": false,
+        "idShortPath": "TechnicalSpecification.CellType"
+      }
+    ]
+  },
+  {
+    "card": "multiple",
+    "value": {
+      "nested": true,
+      "idShortPath": "TechnicalSpecification.PhysicalCharacteristics"
+    }
+  }
+]

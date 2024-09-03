@@ -1,0 +1,44 @@
+{
+  "modelType": "Submodel",
+  "kind": "Instance",
+  "id": "https://example.com/ids/sm/0341_1260_7042_7305",
+  "displayName": [
+    {
+      "language": "en",
+      "text": "EnvironmentalImpact"
+    },
+    {
+      "language": "de",
+      "text": "Umweltverträglichkeit"
+    }
+  ],
+  "idShort": "EnvironmentalImpact",
+  "submodelElements": [
+    {
+      "modelType": "Property",
+      "value": "5 kg CO2e",
+      "idShort": "CarbonFootprint"
+    },
+    {
+      "modelType": "Property",
+      "value": "Contains cobalt and lithium",
+      "idShort": "HazardousMaterials"
+    },
+    {
+      "modelType": "SubmodelElementCollection",
+      "idShort": "Material Composition",
+      "value": [
+        {
+          "modelType": "Property",
+          "value": "2%",
+          "idShort": "CobaltContent"
+        },
+        {
+          "modelType": "Property",
+          "value": "5%",
+          "idShort": "LithiumContent"
+        }
+      ]
+    }
+  ]
+}

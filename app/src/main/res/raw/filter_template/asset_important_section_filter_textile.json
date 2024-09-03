@@ -1,0 +1,29 @@
+[
+  {
+    "card": "single",
+    "value": {
+      "nested": false,
+      "idShortPath": "Evaluation.QualityTest"
+    }
+  },
+  {
+    "card": "multiple",
+    "value": {
+      "nested": true,
+      "idShortPath": "RawMaterials.RawCompositionMaterials"
+    }
+  },
+  {
+    "card": "multiple",
+    "value": [
+      {
+        "nested": false,
+        "idShortPath": "Certifications.CertificationName"
+      },
+      {
+        "nested": false,
+        "idShortPath": "Certifications.CertificationNumber"
+      }
+    ]
+  }
+]

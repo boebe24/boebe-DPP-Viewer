@@ -1,0 +1,71 @@
+[
+  {
+    "submodelID": "EnvironmentalImpact",
+    "nested": true,
+    "displayedIDs": [
+      {
+        "nested": false,
+        "idShort": "HazardousMaterials"
+      },
+      {
+        "nested": true,
+        "idShort": "MaterialComposition",
+        "displayedIDs":[
+          {
+            "nested": false,
+            "idShort": "CobaltContent"
+          },
+          {
+            "nested": false,
+            "idShort": "LithiumContent"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "submodelID": "Maintenance",
+    "nested": true,
+    "displayedIDs": [
+      {
+        "nested": true,
+        "idShort": "Remanufacture",
+        "displayedIDs": [
+          {
+            "nested": true,
+            "idShort": "ReturnOptions",
+            "displayedIDs": [
+              {
+                "nested": true,
+                "idShort": "ContactInformation",
+                "displayedIDs": [
+                  {
+                    "nested": false,
+                    "idShort": "NationalCode"
+                  },
+                  {
+                    "nested": false,
+                    "idShort": "StateCounty"
+                  },
+                  {
+                    "nested": false,
+                    "idShort": "CityTown"
+                  },
+                  {
+                    "nested": false,
+                    "idShort": "Street"
+                  },
+                  {
+                    "nested": false,
+                    "idShort": "Zipcode"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+
+    ]
+  }
+]

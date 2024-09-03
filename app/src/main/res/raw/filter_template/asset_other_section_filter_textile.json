@@ -1,0 +1,200 @@
+[
+  {
+    "nested": true,
+    "submodelID": "Certifications",
+    "displayedIDs": [
+      {
+        "nested": false,
+        "idShort": "CertificationName"
+      },
+      {
+        "nested": false,
+        "idShort": "IssueBody"
+      },
+      {
+        "nested": false,
+        "idShort": "IssueDate"
+      }
+    ]
+  },
+  {
+    "nested": true,
+    "submodelID": "Labels",
+    "displayedIDs": [
+      {
+        "nested": true,
+        "idShort": "Label1",
+        "displayedIDs": [
+          {
+            "nested": false,
+            "idShort": "LabelName"
+          },
+          {
+            "nested": false,
+            "idShort": "IssuingBody"
+          },
+          {
+            "nested": false,
+            "idShort": "IssueDate"
+          }
+        ]
+      },
+      {
+        "nested": true,
+        "idShort": "Label2",
+        "displayedIDs": [
+          {
+            "nested": false,
+            "idShort": "LabelName"
+          },
+          {
+            "nested": false,
+            "idShort": "IssuingBody"
+          },
+          {
+            "nested": false,
+            "idShort": "IssueDate"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "nested": true,
+    "submodelID": "Transport",
+    "displayedIDs": [
+      {
+        "nested": false,
+        "idShort": "TransportNationalCode"
+      },
+      {
+        "nested": false,
+        "idShort": "Location",
+        "displayedIDs": [
+          {
+            "nested": false,
+            "idShort": "TransportCityTown"
+          },
+          {
+            "nested": false,
+            "idShort": "TransportStreet"
+          },
+          {
+            "nested": false,
+            "idShort": "TransportZipcode"
+          }
+        ]
+      },
+      {
+        "nested": false,
+        "idShort": "TransportNameOfContact"
+      },
+      {
+        "nested": false,
+        "idShort": "TransportPhone"
+      },
+      {
+        "nested": false,
+        "idShort": "TransportReference"
+      },
+      {
+        "nested": true,
+        "idShort": "TransportMeans",
+        "displayedIDs": [
+          {
+            "nested": false,
+            "idShort": "Ship"
+          },
+          {
+            "nested": false,
+            "idShort": "Plane"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "nested": true,
+    "submodelID": "AfterSales",
+    "displayedIDs": [
+      {
+        "nested": false,
+        "idShort": "Recycling"
+      },
+      {
+        "nested": false,
+        "idShort": "Repair"
+      },
+      {
+        "nested": false,
+        "idShort": "Upcycling"
+      }
+    ]
+  },
+  {
+    "nested": true,
+    "submodelID": "RawMaterial",
+    "displayedIDs": [
+      {
+        "nested": false,
+        "idShort": "RawNationalCode"
+      },
+      {
+        "nested": false,
+        "idShort": "RawCityTown"
+      },
+      {
+        "nested": false,
+        "idShort": "RawNameOfContact"
+      }
+    ]
+  },
+  {
+    "nested": true,
+    "submodelID": "Conversion",
+    "displayedIDs": [
+      {
+        "nested": false,
+        "idShort": "ConversionCompany"
+      },
+      {
+        "nested": false,
+        "idShort": "ConversionTypeOfProcesses"
+      },
+      {
+        "nested": false,
+        "idShort": "ConversionPackaging"
+      },
+      {
+        "nested": false,
+        "idShort": "ConversionDate"
+      }
+    ]
+  },
+  {
+    "nested": true,
+    "idShort": "FinishedProduct",
+    "displayedIDs": [
+      {
+        "nested": false,
+        "idShort": "FinishedProductBrand"
+      },
+      {
+        "nested": false,
+        "idShort": "FinishedProductSize"
+      },
+      {
+        "nested": false,
+        "idShort": "FinishedProductCost"
+      },
+      {
+        "nested": false,
+        "idShort": "FinishedProductPackaging"
+      },
+      {
+        "nested": false,
+        "idShort": "FinishedProductDate"
+      }
+    ]
+  }
+]

@@ -1,0 +1,66 @@
+{
+  "modelType": "AssetAdministrationShell",
+  "assetInformation": {
+    "assetKind": "Instance",
+    "assetType": "",
+    "globalAssetId": "https://smartphone-manufacturer.com/ids/asset/0473_7071_4042_7402"
+  },
+  "submodels": [
+    {
+      "keys": [
+        {
+          "type": "Submodel",
+          "value": "https://smartphone-manufacturer.com/ids/submodel/CarbonFootprint/CarbonFootprint/0/9"
+        }
+      ],
+      "type": "ModelReference"
+    },
+    {
+      "keys": [
+        {
+          "type": "Submodel",
+          "value": "https://example.com/ids/sm/4001_9071_4042_5579"
+        }
+      ],
+      "type": "ExternalReference"
+    },
+    {
+      "keys": [
+        {
+          "type": "Submodel",
+          "value": "https://example.com/ids/sm/8375_7032_4042_6030"
+        }
+      ],
+      "type": "ExternalReference"
+    },
+    {
+      "keys": [
+        {
+          "type": "Submodel",
+          "value": "urn:samm:io.catenax.battery.battery_pass:4.0.0#BatteryPass/submodel"
+        }
+      ],
+      "type": "ModelReference"
+    },
+    {
+      "keys": [
+        {
+          "type": "Submodel",
+          "value": "https://example.com/ids/sm/2591_8002_7042_8580"
+        }
+      ],
+      "type": "ExternalReference"
+    },
+    {
+      "keys": [
+        {
+          "type": "Submodel",
+          "value": "https://example.com/ids/sm/4075_8132_7042_7498"
+        }
+      ],
+      "type": "ModelReference"
+    }
+  ],
+  "id": "https://example.com/ids/sm/2591_8002_7042_4580",
+  "idShort": "Smartphone_DPP"
+}

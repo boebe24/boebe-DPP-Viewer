@@ -1,0 +1,98 @@
+{
+    "modelType": "Submodel",
+    "kind": "Instance",
+    "id": "https://example.com/ids/sm/0341_1260_7042_7305",
+    "displayName": [
+        {
+            "language": "en",
+            "text": "EnvironmentalImpact"
+        },
+        {
+            "language": "de",
+            "text": "Umweltverträglichkeit"
+        }
+    ],
+    "idShort": "EnvironmentalImpact",
+    "submodelElements": [
+        {
+            "modelType": "Property",
+            "value": "5 kg CO2e",
+            "valueType": "xs:string",
+            "displayName": [
+                {
+                    "language": "en",
+                    "text": "Carbon Footprint"
+                },
+                {
+                    "language": "de",
+                    "text": "CO2-Fußabdruck"
+                }
+            ],
+            "idShort": "CarbonFootprint"
+        },
+        {
+            "modelType": "Property",
+            "value": "Contains cobalt and lithium",
+            "valueType": "xs:string",
+            "displayName": [
+                {
+                    "language": "en",
+                    "text": "Hazardous Materials"
+                },
+                {
+                    "language": "de",
+                    "text": "Gefährliche Materialien"
+                }
+            ],
+            "idShort": "HazardousMaterials"
+        },
+        {
+            "modelType": "SubmodelElementCollection",
+            "displayName": [
+                {
+                    "language": "en",
+                    "text": "Material Composition"
+                },
+                {
+                    "language": "de",
+                    "text": "Materialzusammensetzung"
+                }
+            ],
+            "idShort": "Material Composition",
+            "value": [
+                {
+                    "modelType": "Property",
+                    "value": "2%",
+                    "valueType": "xs:string",
+                    "displayName": [
+                        {
+                            "language": "en",
+                            "text": "Cobalt Content"
+                        },
+                        {
+                            "language": "de",
+                            "text": "Kobaltgehalt"
+                        }
+                    ],
+                    "idShort": "CobaltContent"
+                },
+                {
+                    "modelType": "Property",
+                    "value": "5%",
+                    "valueType": "xs:string",
+                    "displayName": [
+                        {
+                            "language": "en",
+                            "text": "Lithium Content"
+                        },
+                        {
+                            "language": "de",
+                            "text": "Lithiumgehalt"
+                        }
+                    ],
+                    "idShort": "LithiumContent"
+                }
+            ]
+        }
+    ]
+}

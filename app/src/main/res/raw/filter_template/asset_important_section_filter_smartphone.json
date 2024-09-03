@@ -1,0 +1,16 @@
+[
+  {
+    "card": "single",
+    "value": {
+      "nested": false,
+      "idShortPath": "Maintenance.Repair.SkillLevel"
+    }
+  },
+  {
+    "card": "multiple",
+    "value": {
+      "nested": true,
+      "idShortPath": "BatteryPass.PhysicalDimensionEntity.MassEntity"
+    }
+  }
+]

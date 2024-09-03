@@ -1,0 +1,24 @@
+[
+  {
+    "card": "single",
+    "value": {
+      "nested": false,
+      "idShortPath": "CarbonFootprint.ProductCarbonFootprint.PCFCO2eq"
+    },
+    "unit": "kg"
+  },
+  {
+    "card": "single",
+    "value": {
+      "nested": false,
+      "idShortPath": "Maintenance.WarrantyExpiration"
+    }
+  },
+  {
+    "card": "multiple",
+    "value": {
+      "nested": true,
+      "idShortPath": "BatteryPass.PhysicalDimensionEntity.MassEntity"
+    }
+  }
+]

@@ -1,0 +1,15 @@
+[
+  {
+    "nested": false,
+    "idShortPath": "DigitalNameplate.ManufacturerProductDesignation"
+  },
+  {
+    "nested": false,
+    "idShortPath": "DigitalNameplate.ManufacturerProductType"
+  },
+  {
+    "nested": false,
+    "idShortPath": "DigitalNameplate.ManufacturerName"
+  }
+]
+
