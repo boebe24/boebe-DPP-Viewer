@@ -1,4 +1,9 @@
 # DPP Viewer
+
+![Static Badge](https://img.shields.io/badge/Andoird_minSdk-33-green) ![Static Badge](https://img.shields.io/badge/Kotlin-2.0-purple) ![Static Badge](https://img.shields.io/badge/Java_JDK-17-blue) 
+
+
+
 Android App for displaying Digital Product Passport Files.
 
 ## Features
