@@ -4,11 +4,14 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.node.ArrayNode
 import com.google.common.truth.Truth.assertThat
 import edu.kit.dppviewer.DPPViewerApplication
+import edu.kit.dppviewer.data.client.DemoServerAvailability
+import edu.kit.dppviewer.data.client.DppServer
 import edu.kit.dppviewer.data.model.product.util.JsonTextUtil
 import edu.kit.dppviewer.ui.BATTERY_SHELL_URL
 import edu.kit.dppviewer.ui.PUZZLE_SHELL_URL
 import edu.kit.dppviewer.ui.SMARTPHONE_SHELL_URL
 import edu.kit.dppviewer.ui.TEXTILE_SHELL_URL
+import org.junit.Assume
 import org.junit.Before
 import org.junit.Test
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -57,7 +60,7 @@ val TEXTILE_SHELL_URL_WITH_INVALID_SUBMODEL_ID =
     "https://www.boebe2024tech.top:463/api/v3.0/shells/aHR0cHM6Ly9leGFtcGxlLmNvbS9pZHMvc20vNzI0NF84MDAyXzcwNDJfNzk2OA=="
 
 @RunWith(RobolectricTestRunner::class)
-@Config(manifest = "src/main/AndroidManifest.xml", application = DPPViewerApplication::class, resourceDir = "src/main/resources")
+@Config(application = DPPViewerApplication::class)
 class AppUtilTest {
 
 
@@ -68,7 +71,12 @@ class AppUtilTest {
 
     @Before
     fun setUp() {
-
+        // Every test here talks to the configured AAS server. Without one they would only wait for
+        // a timeout, so they are reported as skipped instead.
+        Assume.assumeTrue(
+            "Demo server ${DppServer.baseUrl} is unreachable",
+            DemoServerAvailability.isReachable
+        )
     }
 
     @Test
@@ -242,11 +250,9 @@ class AppUtilTest {
         return JsonTextUtil().generateJsonNode(getResourceStringFromPath(path))
     }
 
-    fun getResourceStringFromPath(path: String): String{
-
-        val local_json_file = File(javaClass.getResource(path)?.path ?: throw IllegalArgumentException("File not found"))
-
-        return (local_json_file.readText())
+    fun getResourceStringFromPath(path: String): String {
+        return javaClass.getResourceAsStream(path)?.bufferedReader()?.use { it.readText() }
+            ?: throw IllegalArgumentException("File not found")
     }
 
 

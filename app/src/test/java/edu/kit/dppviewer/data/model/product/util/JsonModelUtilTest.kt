@@ -15,11 +15,11 @@ import java.io.File
 
 class JsonModelUtilTest {
 
-    val jsonProductShell = getResourceStringFromPath("/raw/test_Json_model/json_product_shell.json")
+    val jsonProductShell = getResourceStringFromPath("/raw/test_Json_Model/json_product_shell.json")
 
-    val jsonProductSubmodelsOne = getResourceStringFromPath("/raw/test_Json_model/product_submodel_one.json")
+    val jsonProductSubmodelsOne = getResourceStringFromPath("/raw/test_Json_Model/product_submodel_one.json")
 
-    val jsonProductSubmodelsTwo = getResourceStringFromPath("/raw/test_Json_model/product_submodel_two.json")
+    val jsonProductSubmodelsTwo = getResourceStringFromPath("/raw/test_Json_Model/product_submodel_two.json")
 
     var product: Product? = null
 
@@ -31,7 +31,7 @@ class JsonModelUtilTest {
 
     @Test
     fun testLoadRecourses() {
-        val batterySubmodelsJson = File(javaClass.getResource("/battery_submodels.json")?.path ?: throw IllegalArgumentException("File not found"))
+        val batterySubmodelsJson = File(javaClass.getResource("/battery_submodels.json")?.toURI() ?: throw IllegalArgumentException("File not found"))
 
         val fileNode = JsonTextUtil().generateJsonNode(batterySubmodelsJson.readText())
 
@@ -42,7 +42,7 @@ class JsonModelUtilTest {
 
     @Test
     fun testLoadRecoursesRaw() {
-        val batterySubmodelsJson = File(javaClass.getResource("/raw/test_filter_template/battery_submodels.json")?.path ?: throw IllegalArgumentException("File not found"))
+        val batterySubmodelsJson = File(javaClass.getResource("/raw/test_filter_template/battery_submodels.json")?.toURI() ?: throw IllegalArgumentException("File not found"))
 
         val fileNode = JsonTextUtil().generateJsonNode(batterySubmodelsJson.readText())
 
@@ -53,7 +53,7 @@ class JsonModelUtilTest {
 
     @Test
     fun testLoadRecoursesLocalBattery() {
-        val batterySubmodelsJson = File(javaClass.getResource("/raw/local_battery_for_test/battery_shell.json")?.path ?: throw IllegalArgumentException("File not found"))
+        val batterySubmodelsJson = File(javaClass.getResource("/raw/local_battery_for_test/battery_shell.json")?.toURI() ?: throw IllegalArgumentException("File not found"))
 
         val fileNode = JsonTextUtil().generateJsonNode(batterySubmodelsJson.readText())
 
@@ -421,7 +421,7 @@ class JsonModelUtilTest {
 
     @Test
     fun `SubmodelElementNestedNode, list, extract children`() {
-        val nestedelementListNode = getNodeFromResourcePath("/raw/test_Json_model/submodelelementlist_node.json")
+        val nestedelementListNode = getNodeFromResourcePath("/raw/test_Json_Model/submodelelementlist_node.json")
 
         val propertyOne = """
             {
@@ -576,8 +576,9 @@ class JsonModelUtilTest {
         return JsonTextUtil().generateJsonNode(getResourceStringFromPath(path))
     }
 
-    fun getResourceStringFromPath(path: String): String{
-        return (File(javaClass.getResource(path)?.path ?: throw IllegalArgumentException("File not found"))).readText()
+    fun getResourceStringFromPath(path: String): String {
+        return javaClass.getResourceAsStream(path)?.bufferedReader()?.use { it.readText() }
+            ?: throw IllegalArgumentException("File not found")
     }
 
 }

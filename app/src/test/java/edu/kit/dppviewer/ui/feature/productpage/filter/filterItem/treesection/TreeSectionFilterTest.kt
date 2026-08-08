@@ -24,7 +24,7 @@ class TreeSectionFilterTest {
     private var filterItems: List<TreeGroupForSubmodelFilterItem>? = null
 
     val jsonOtherFilterFile = File(javaClass.getResource(
-        "/raw/other_section_filter_battery.json")?.path ?: throw IllegalArgumentException("File not found"))
+        "/raw/other_section_filter_battery.json")?.toURI() ?: throw IllegalArgumentException("File not found"))
 
     val jsonOtherFilterItems = jsonOtherFilterFile.readText()
 
@@ -35,10 +35,10 @@ class TreeSectionFilterTest {
     fun setUp() {
         USER_LANGUAGE = "de"
         val batterySubmodelsJson = File(javaClass.getResource(
-            "/raw/local_battery_for_test/battery_submodels.json")?.path ?: throw IllegalArgumentException("File not found"))
+            "/raw/local_battery_for_test/battery_submodels.json")?.toURI() ?: throw IllegalArgumentException("File not found"))
 
         val batteryShellJson = File(javaClass.getResource(
-            "/raw/local_battery_for_test/battery_submodels.json")?.path ?: throw IllegalArgumentException("File not found"))
+            "/raw/local_battery_for_test/battery_submodels.json")?.toURI() ?: throw IllegalArgumentException("File not found"))
 
         // Parse JSON strings to objects
         product = createProductWithSubmodels(

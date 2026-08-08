@@ -28,7 +28,7 @@ class GeneralSectionFilterTest {
     val jsonGeneralFilterFile = File(
         javaClass.getResource(
             "/raw/test_filter_template/general_section_filter_old.json"
-        )?.path ?: throw IllegalArgumentException("File not found")
+        )?.toURI() ?: throw IllegalArgumentException("File not found")
     )
 
     val jsonGeneralFilterItems = jsonGeneralFilterFile.readText()
@@ -42,13 +42,13 @@ class GeneralSectionFilterTest {
         val batterySubmodelsJson = File(
             javaClass.getResource(
                 "/raw/local_battery_for_test/battery_submodels.json"
-            )?.path ?: throw IllegalArgumentException("File not found")
+            )?.toURI() ?: throw IllegalArgumentException("File not found")
         )
 
         val batteryShellJson = File(
             javaClass.getResource(
                 "/raw/local_battery_for_test/battery_submodels.json"
-            )?.path ?: throw IllegalArgumentException("File not found")
+            )?.toURI() ?: throw IllegalArgumentException("File not found")
         )
 
         // Parse JSON strings to objects
