@@ -13,7 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import edu.kit.dppviewer.R
 
@@ -58,7 +58,7 @@ fun InformationPopupDialog(
             TextButton(
                 onClick = onDismiss
             ) {
-                Text(LocalContext.current.getString(R.string.dismiss))
+                Text(stringResource(R.string.dismiss))
             }
         })
 }

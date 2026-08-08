@@ -7,7 +7,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import edu.kit.dppviewer.R
 
@@ -30,7 +29,7 @@ fun OpenDialog(
 ) {
     AlertDialog(
         onDismissRequest = { onDismissAction() },
-        title = { Text(text = LocalContext.current.getString(R.string.scan_qr_code_found_text))},
+        title = { Text(text = stringResource(R.string.scan_qr_code_found_text))},
         icon = { Icon(Icons.Default.QrCodeScanner, contentDescription = stringResource(R.string.qr_scanner_icon)) },
         text = { OpenDialogContent(url) },
         confirmButton = {
@@ -39,16 +38,16 @@ fun OpenDialog(
                 onClick = { onOpenAction() }) {
                 Text(
                     if (productLoaded) {
-                        LocalContext.current.getString(R.string.scan_qr_code_result_open_text)
+                        stringResource(R.string.scan_qr_code_result_open_text)
                     } else {
-                        LocalContext.current.getString(R.string.scan_qr_code_result_load_text)
+                        stringResource(R.string.scan_qr_code_result_load_text)
                     }
                 )
             }
         },
         dismissButton = {
             TextButton(onClick = { onDismissAction() }) {
-                Text(LocalContext.current.getString(R.string.dismiss))
+                Text(stringResource(R.string.dismiss))
             }
         }
     )

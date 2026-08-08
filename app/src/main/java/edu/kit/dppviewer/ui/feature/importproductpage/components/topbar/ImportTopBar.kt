@@ -9,7 +9,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import edu.kit.dppviewer.R
 
@@ -21,7 +20,7 @@ fun ImportTopBar(
     onFlashClick: () -> Unit,
 ) {
     TopAppBar(
-        title = { Text(LocalContext.current.getString(R.string.scan_qr_code_text)) },
+        title = { Text(stringResource(R.string.scan_qr_code_text)) },
         actions = {
             if (hasFlash) {
                 IconButton(onClick = onFlashClick) {

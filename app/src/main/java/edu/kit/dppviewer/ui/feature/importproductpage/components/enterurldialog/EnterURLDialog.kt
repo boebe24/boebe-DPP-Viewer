@@ -7,7 +7,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import edu.kit.dppviewer.R
 
 @Composable
@@ -17,9 +17,6 @@ fun EnterURLDialog(
     onOpenAction: (String) -> Unit,
     onDismissAction: () -> Unit,
 ) {
-
-    val context = LocalContext.current
-
     AlertDialog(
         onDismissRequest = { onDismissAction() },
         text = {
@@ -27,18 +24,18 @@ fun EnterURLDialog(
                 value = url,
                 onValueChange = { onTextChange(it) },
                 modifier = Modifier.fillMaxWidth(),
-                placeholder = { Text(context.getString(R.string.enter_url_placeholder)) }
+                placeholder = { Text(stringResource(R.string.enter_url_placeholder)) }
             )
         },
         confirmButton = {
             TextButton(
                 onClick = { onOpenAction(url) }) {
-                Text(context.getString(R.string.submit))
+                Text(stringResource(R.string.submit))
             }
         },
         dismissButton = {
             TextButton(onClick = { onDismissAction() }) {
-                Text(context.getString(R.string.dismiss))
+                Text(stringResource(R.string.dismiss))
             }
         }
     )
