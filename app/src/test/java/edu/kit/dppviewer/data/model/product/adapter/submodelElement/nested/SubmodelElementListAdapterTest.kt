@@ -304,9 +304,9 @@ class SubmodelElementListAdapterTest {
         assertEquals("Labeln",adapter.name)
     }
 
-    fun getResourceStringFromPath(path: String): String{
-
-        return (File(javaClass.getResource(path)?.path ?: throw IllegalArgumentException("File not found"))).readText()
+    fun getResourceStringFromPath(path: String): String {
+        return javaClass.getResourceAsStream(path)?.bufferedReader()?.use { it.readText() }
+            ?: throw IllegalArgumentException("File not found")
     }
 
 }

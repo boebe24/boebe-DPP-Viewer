@@ -16,7 +16,7 @@ import java.io.File
 
 class SubmodelAdapterTest {
 
-    val jsonProductSubmodelsOne = getResourceStringFromPath("/raw/test_Json_model/product_submodel_one.json")
+    val jsonProductSubmodelsOne = getResourceStringFromPath("/raw/test_Json_Model/product_submodel_one.json")
 
     var submodelAdapterOne : SubmodelAdapter? = null
 
@@ -62,7 +62,8 @@ class SubmodelAdapterTest {
         return JsonTextUtil().generateJsonNode(getResourceStringFromPath(path))
     }
 
-    fun getResourceStringFromPath(path: String): String{
-        return (File(javaClass.getResource(path)?.path ?: throw IllegalArgumentException("File not found"))).readText()
+    fun getResourceStringFromPath(path: String): String {
+        return javaClass.getResourceAsStream(path)?.bufferedReader()?.use { it.readText() }
+            ?: throw IllegalArgumentException("File not found")
     }
 }

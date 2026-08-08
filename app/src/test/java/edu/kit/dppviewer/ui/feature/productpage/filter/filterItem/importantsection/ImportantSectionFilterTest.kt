@@ -22,7 +22,7 @@ class ImportantSectionFilterTest {
     private var filterItems: List<ImportantCardFilterItem>? = null
 
     val jsonImportantFilterFile = File(javaClass.getResource(
-        "/raw/important_section_filter_battery.json")?.path ?:
+        "/raw/important_section_filter_battery.json")?.toURI() ?:
     throw IllegalArgumentException("File not found"))
 
     val jsonImportantFilterItems = jsonImportantFilterFile.readText()
@@ -36,10 +36,10 @@ class ImportantSectionFilterTest {
     fun setUp() {
         USER_LANGUAGE = "de"
         val batterySubmodelsJson = File(javaClass.getResource(
-            "/raw/local_battery_for_test/battery_submodels.json")?.path ?: throw IllegalArgumentException("File not found"))
+            "/raw/local_battery_for_test/battery_submodels.json")?.toURI() ?: throw IllegalArgumentException("File not found"))
 
         val batteryShellJson = File(javaClass.getResource(
-            "/raw/local_battery_for_test/battery_submodels.json")?.path ?: throw IllegalArgumentException("File not found"))
+            "/raw/local_battery_for_test/battery_submodels.json")?.toURI() ?: throw IllegalArgumentException("File not found"))
 
         // Parse JSON strings to objects
         product_local_battery = createProductWithSubmodels(

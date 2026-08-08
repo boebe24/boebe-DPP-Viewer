@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import edu.kit.dppviewer.BuildConfig
 import edu.kit.dppviewer.R
 import edu.kit.dppviewer.data.client.util.AppUtil
+import edu.kit.dppviewer.data.client.DppServer
 import edu.kit.dppviewer.ui.BATTERY_SHELL_URL
 import edu.kit.dppviewer.ui.LocalSnackbarHostState
 import edu.kit.dppviewer.ui.PUZZLE_SHELL_URL
@@ -71,71 +72,74 @@ fun ImportBottomSheet(
                 style = MaterialTheme.typography.titleMedium
             )
             if (BuildConfig.INCLUDE_DEBUG_OPTIONS) {
-                Spacer(modifier = Modifier.height(16.dp))
-                OptionItem(
-                    icon = Icons.Default.QrCodeScanner,
-                    text = "Simulate Textile",
-                    onClick = {
+                // The example products live on a server, so they are only offered if one is configured.
+                if (DppServer.isConfigured) {
+                    Spacer(modifier = Modifier.height(16.dp))
+                    OptionItem(
+                        icon = Icons.Default.QrCodeScanner,
+                        text = "Simulate Textile",
+                        onClick = {
 
-                        loadProductWithErrorHandling(
-                            context = context,
-                            url = TEXTILE_SHELL_URL,
-                            scope = scope,
-                            snackbarHostState = snackbarHostState,
-                            onEvent = onEvent
-                        )
-                    },
-                    sheetState = sheetState,
-                    scope = scope
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-                OptionItem(
-                    icon = Icons.Default.QrCodeScanner,
-                    text = "Simulate Smartphone",
-                    onClick = {
-                        loadProductWithErrorHandling(
-                            context = context,
-                            url = SMARTPHONE_SHELL_URL,
-                            scope = scope,
-                            snackbarHostState = snackbarHostState,
-                            onEvent = onEvent
-                        )
-                    },
-                    sheetState = sheetState,
-                    scope = scope
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-                OptionItem(
-                    icon = Icons.Default.QrCodeScanner,
-                    text = "Simulate Battery",
-                    onClick = {
-                        loadProductWithErrorHandling(
-                            context = context,
-                            url = BATTERY_SHELL_URL,
-                            scope = scope,
-                            snackbarHostState = snackbarHostState,
-                            onEvent = onEvent
-                        )
-                    },
-                    sheetState = sheetState,
-                    scope = scope
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-                OptionItem(
-                    icon = Icons.Default.QrCodeScanner,
-                    text = "Simulate Puzzle",
-                    onClick = {
-                        loadProductWithErrorHandling(
-                            context = context,
-                            url = PUZZLE_SHELL_URL,
-                            scope = scope,
-                            snackbarHostState = snackbarHostState,
-                            onEvent = onEvent
-                        )
-                    },
-                    sheetState = sheetState,
-                    scope = scope
-                )
+                            loadProductWithErrorHandling(
+                                context = context,
+                                url = TEXTILE_SHELL_URL,
+                                scope = scope,
+                                snackbarHostState = snackbarHostState,
+                                onEvent = onEvent
+                            )
+                        },
+                        sheetState = sheetState,
+                        scope = scope
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    OptionItem(
+                        icon = Icons.Default.QrCodeScanner,
+                        text = "Simulate Smartphone",
+                        onClick = {
+                            loadProductWithErrorHandling(
+                                context = context,
+                                url = SMARTPHONE_SHELL_URL,
+                                scope = scope,
+                                snackbarHostState = snackbarHostState,
+                                onEvent = onEvent
+                            )
+                        },
+                        sheetState = sheetState,
+                        scope = scope
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    OptionItem(
+                        icon = Icons.Default.QrCodeScanner,
+                        text = "Simulate Battery",
+                        onClick = {
+                            loadProductWithErrorHandling(
+                                context = context,
+                                url = BATTERY_SHELL_URL,
+                                scope = scope,
+                                snackbarHostState = snackbarHostState,
+                                onEvent = onEvent
+                            )
+                        },
+                        sheetState = sheetState,
+                        scope = scope
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    OptionItem(
+                        icon = Icons.Default.QrCodeScanner,
+                        text = "Simulate Puzzle",
+                        onClick = {
+                            loadProductWithErrorHandling(
+                                context = context,
+                                url = PUZZLE_SHELL_URL,
+                                scope = scope,
+                                snackbarHostState = snackbarHostState,
+                                onEvent = onEvent
+                            )
+                        },
+                        sheetState = sheetState,
+                        scope = scope
+                    )
+                }
                 Spacer(modifier = Modifier.height(16.dp))
                 OptionItem(
                     icon = Icons.Default.Error,

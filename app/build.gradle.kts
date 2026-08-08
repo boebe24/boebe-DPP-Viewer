@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.jetbrains.kotlin.android)
 
     /**
      * Compose
@@ -17,14 +16,20 @@ plugins {
 
 android {
     namespace = "edu.kit.dppviewer"
-    compileSdk = 34
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "edu.kit.dppviewer"
         minSdk = 33
-        targetSdk = 34
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
+
+        // Server the example products are loaded from. Override without touching the code, e.g. in
+        // local.properties/gradle.properties or with -Pdpp.server.baseUrl=... , empty = no server.
+        val dppServerBaseUrl = (findProperty("dpp.server.baseUrl") as String?)
+            ?: "https://www.boebe2024tech.top:473/api/v3.0"
+        buildConfigField("String", "DPP_SERVER_BASE_URL", "\"$dppServerBaseUrl\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -57,10 +62,6 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = "17"
-    }
-
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -69,16 +70,12 @@ android {
 
     sourceSets {
         getByName("main") {
-            resources.srcDir("src/main/res")
-            assets.srcDirs(
-                file("src/main/assets")
-            )
+            resources.directories += "src/main/res"
+            assets.directories += "src/main/assets"
         }
         getByName("test") {
-            resources.srcDir("src/main/res")
-            assets.srcDirs(
-                file("src/main/assets")
-            )
+            resources.directories += "src/main/res"
+            assets.directories += "src/main/assets"
         }
     }
 }
