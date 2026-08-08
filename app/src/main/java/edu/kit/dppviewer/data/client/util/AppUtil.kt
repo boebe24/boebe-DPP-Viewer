@@ -17,6 +17,10 @@ import javax.net.ssl.HttpsURLConnection
 
 private const val REQUEST_METHOD_GET = "GET"
 
+/** Fail fast instead of blocking the caller when the server is unreachable. */
+private const val CONNECT_TIMEOUT_MILLIS = 5_000
+private const val READ_TIMEOUT_MILLIS = 5_000
+
 /**
  * This class contains utility functions that interact with internet
  */
@@ -73,6 +77,8 @@ class AppUtil {
         val url = URL(wantedURL)
         val connection = url.openConnection() as HttpsURLConnection
         connection.requestMethod = REQUEST_METHOD_GET
+        connection.connectTimeout = CONNECT_TIMEOUT_MILLIS
+        connection.readTimeout = READ_TIMEOUT_MILLIS
 
         // Mimic a browser's User-Agent
         connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.5481.77 Safari/537.36")
