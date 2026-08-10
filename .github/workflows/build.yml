@@ -1,0 +1,65 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Lint, test and assemble
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Setup Java
+        uses: actions/setup-java@03ad4de0992f5dab5e18fcb136590ce7c4a0ac95 # v5.6.0
+        with:
+          distribution: "temurin"
+          # Must match toolchainVersion in gradle/gradle-daemon-jvm.properties, the JDK is an input
+          # of the build output. Robolectric caps this at 25, its ASM cannot read Java 26 bytecode.
+          java-version: "25"
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@67621b124fd2e251c5e8a0e6e3b91318f2287669 # v6.3.0
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@40fd30fb8d7440372e1316f5d1809ec01dcd3699 # v4.0.1
+
+      - name: Run lint
+        run: ./gradlew lintDebug
+
+      - name: Run unit tests
+        run: ./gradlew testDebugUnitTest
+
+      - name: Assemble debug APK
+        run: ./gradlew assembleDebug
+
+      - name: Upload debug APK
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: app-debug.apk
+          path: app/build/outputs/apk/debug/app-debug.apk
+
+      - name: Upload test and lint reports
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: reports
+          path: |
+            app/build/reports/tests/
+            app/build/reports/lint-results-debug.html

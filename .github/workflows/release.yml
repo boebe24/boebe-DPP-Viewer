@@ -1,0 +1,151 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Build and publish the release APK
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Setup Java
+        uses: actions/setup-java@03ad4de0992f5dab5e18fcb136590ce7c4a0ac95 # v5.6.0
+        with:
+          distribution: "temurin"
+          # Must match toolchainVersion in gradle/gradle-daemon-jvm.properties, the JDK is an input
+          # of the build output. Robolectric caps this at 25, its ASM cannot read Java 26 bytecode.
+          java-version: "25"
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@67621b124fd2e251c5e8a0e6e3b91318f2287669 # v6.3.0
+        with:
+          # A published artifact must not be built from a restored cache.
+          cache-disabled: true
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@40fd30fb8d7440372e1316f5d1809ec01dcd3699 # v4.0.1
+
+      - name: Read version from tag
+        id: version
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          version="${TAG#v}"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "Building version $version"
+
+      - name: Decode keystore
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+        run: |
+          set -euo pipefail
+          if [ -z "$KEYSTORE_BASE64" ]; then
+            echo "::error::KEYSTORE_BASE64 is not set, refusing to publish a debug signed APK"
+            exit 1
+          fi
+          printf '%s' "$KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/keystore.jks"
+
+      # Two identical builds must produce the same APK. If they do not, something in the build
+      # depends on time, paths or ordering, and the published checksum would be meaningless.
+      - name: Build release APK
+        env:
+          DPP_KEYSTORE_FILE: ${{ runner.temp }}/keystore.jks
+          DPP_KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          DPP_KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          DPP_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          set -euo pipefail
+          ./gradlew assembleRelease -Pdpp.versionName="$VERSION"
+          cp app/build/outputs/apk/release/app-release.apk "$RUNNER_TEMP/first.apk"
+
+      - name: Rebuild release APK from a clean tree
+        env:
+          DPP_KEYSTORE_FILE: ${{ runner.temp }}/keystore.jks
+          DPP_KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          DPP_KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          DPP_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          set -euo pipefail
+          ./gradlew clean
+          ./gradlew assembleRelease -Pdpp.versionName="$VERSION"
+          cp app/build/outputs/apk/release/app-release.apk "$RUNNER_TEMP/second.apk"
+
+      # The APK bytes cannot be compared directly. With minSdk 33 apksigner signs with RSASSA-PSS,
+      # whose salt is random, so the signing block differs on every build even for identical input.
+      # What must be stable is everything inside the archive, so the entries are compared instead.
+      - name: Verify both builds produce the same APK contents
+        id: repro
+        run: |
+          set -euo pipefail
+          content_hash() {
+            local extracted="$RUNNER_TEMP/extracted-$2"
+            mkdir -p "$extracted"
+            unzip -q -o "$1" -d "$extracted"
+            ( cd "$extracted" && find . -type f -print0 | sort -z | xargs -0 sha256sum ) \
+              | sha256sum | cut -d' ' -f1
+          }
+
+          first="$(content_hash "$RUNNER_TEMP/first.apk" first)"
+          second="$(content_hash "$RUNNER_TEMP/second.apk" second)"
+          echo "first  $first"
+          echo "second $second"
+          if [ "$first" != "$second" ]; then
+            echo "::error::The release build is not reproducible, the two APKs differ in content"
+            exit 1
+          fi
+          echo "content_hash=$first" >> "$GITHUB_OUTPUT"
+
+      - name: Collect release files
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+          CONTENT_HASH: ${{ steps.repro.outputs.content_hash }}
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts
+          cp "$RUNNER_TEMP/first.apk" "artifacts/dpp-viewer-$VERSION.apk"
+          cd artifacts
+          sha256sum ./*.apk > SHA256SUMS.txt
+          {
+            echo "## Release v$VERSION"
+            echo
+            echo "Built twice from a clean tree, both builds had identical APK contents."
+            echo
+            echo '```'
+            cat SHA256SUMS.txt
+            echo "$CONTENT_HASH  APK contents (signature excluded)"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Create draft release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ github.ref_name }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          set -euo pipefail
+          gh release create "$TAG" \
+            --draft \
+            --generate-notes \
+            --title "$TAG" \
+            "artifacts/dpp-viewer-$VERSION.apk" \
+            "artifacts/SHA256SUMS.txt"
