@@ -1,6 +1,14 @@
 # DPP Viewer
 
-![Static Badge](https://img.shields.io/badge/Andoird_minSdk-33-green) ![Static Badge](https://img.shields.io/badge/Kotlin-2.0-purple) ![Static Badge](https://img.shields.io/badge/Java_JDK-17-blue) 
+[![Release](https://img.shields.io/github/v/release/boebe24/boebe-DPP-Viewer?label=release)](https://github.com/boebe24/boebe-DPP-Viewer/releases)
+[![Build](https://img.shields.io/github/actions/workflow/status/boebe24/boebe-DPP-Viewer/build.yml?branch=main&label=build)](https://github.com/boebe24/boebe-DPP-Viewer/actions/workflows/build.yml)
+[![License](https://img.shields.io/github/license/boebe24/boebe-DPP-Viewer)](LICENSE)
+
+![Android minSdk](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2Fboebe24%2Fboebe-DPP-Viewer%2Fmain%2Fgradle%2Flibs.versions.toml&query=%24.versions.minSdk&label=Android%20minSdk&color=green)
+![Android targetSdk](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2Fboebe24%2Fboebe-DPP-Viewer%2Fmain%2Fgradle%2Flibs.versions.toml&query=%24.versions.targetSdk&label=Android%20targetSdk&color=green)
+![Kotlin](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2Fboebe24%2Fboebe-DPP-Viewer%2Fmain%2Fgradle%2Flibs.versions.toml&query=%24.versions.kotlin&label=Kotlin&color=purple)
+![AGP](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2Fboebe24%2Fboebe-DPP-Viewer%2Fmain%2Fgradle%2Flibs.versions.toml&query=%24.versions.agp&label=AGP&color=green)
+![Java JDK](https://img.shields.io/badge/Java_JDK-25-blue)
 
 
 

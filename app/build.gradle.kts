@@ -43,12 +43,12 @@ val releaseKeystore: File? = System.getenv("DPP_KEYSTORE_FILE")?.takeIf { it.isN
 
 android {
     namespace = "edu.kit.dppviewer"
-    compileSdk = 37
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
         applicationId = "edu.kit.dppviewer"
-        minSdk = 33
-        targetSdk = 36
+        minSdk = libs.versions.minSdk.get().toInt()
+        targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = dppVersionCode
         versionName = dppVersionName
 
