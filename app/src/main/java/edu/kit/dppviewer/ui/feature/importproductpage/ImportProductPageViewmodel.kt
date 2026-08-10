@@ -6,6 +6,7 @@ import androidx.camera.core.Camera
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import edu.kit.dppviewer.data.model.product.model.LocalDemoProduct
 import edu.kit.dppviewer.data.repository.product.ProductRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -35,6 +36,23 @@ class ImportProductPageViewmodel @Inject constructor(
             _uiState.value = _uiState.value.copy(productLoadingState = ProductLoadingState.LOADING)
             productRepository.loadProductFromURL(uiState.value.url)
             _uiState.value = _uiState.value.copy(productLoadingState = ProductLoadingState.LOADED)
+        }
+    }
+
+    /**
+     * Loads one of the example products bundled with the app and opens the product page once it
+     * is in the repository.
+     *
+     * Sets ProductLoadingState.
+     */
+    private fun loadLocalProduct(demoProduct: LocalDemoProduct) {
+        viewModelScope.launch {
+            _uiState.value = _uiState.value.copy(productLoadingState = ProductLoadingState.LOADING)
+            productRepository.loadLocalProduct(demoProduct)
+            _uiState.value = _uiState.value.copy(
+                productLoadingState = ProductLoadingState.LOADED,
+                openProductPage = true,
+            )
         }
     }
 
@@ -95,6 +113,10 @@ class ImportProductPageViewmodel @Inject constructor(
 
             is ImportProductPageUiEvent.LoadProductFromUrl -> {
                 loadProductFromUrl()
+            }
+
+            is ImportProductPageUiEvent.LoadLocalProduct -> {
+                loadLocalProduct(event.demoProduct)
             }
 
             is ImportProductPageUiEvent.LaunchPhotoPicker -> {

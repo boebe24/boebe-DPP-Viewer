@@ -3,8 +3,10 @@ package edu.kit.dppviewer.data.repository.product
 //import edu.kit.dppviewer.data.model.product.getExampleSmartphone
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
+import edu.kit.dppviewer.data.model.product.model.LocalDemoProduct
 import edu.kit.dppviewer.data.model.product.model.NullProduct
 import edu.kit.dppviewer.data.model.product.model.Product
+import edu.kit.dppviewer.data.repository.product.loader.AssetLoader
 import edu.kit.dppviewer.data.repository.product.loader.DatabaseLoader
 import edu.kit.dppviewer.data.repository.product.loader.LoaderStrategy
 import edu.kit.dppviewer.data.repository.product.loader.WebLoader
@@ -82,6 +84,18 @@ class ProductRepositoryImpl @Inject constructor(
             loader = DatabaseLoader(productId)
             refresh()
         }
+    }
+
+    /**
+     * Loads one of the example products bundled with the app from the assets.
+     * Needs neither a server nor an internet connection.
+     *
+     * @param demoProduct The example product to load.
+     */
+    override suspend fun loadLocalProduct(demoProduct: LocalDemoProduct) {
+        _productUrl.value = ""
+        loader = AssetLoader(context, demoProduct)
+        refresh()
     }
 
     /**

@@ -1,0 +1,44 @@
+{
+  "idShort": "Puzzle",
+  "id": "https://example.com/ids/sm/0043_0251_8042_9820",
+  "assetInformation": { "assetKind": "Instance" },
+  "submodels": [
+    {
+      "type": "ExternalReference",
+      "keys": [
+        {
+          "type": "Submodel",
+          "value": "https://example.com/ids/sm/5271_0251_8042_7474"
+        }
+      ]
+    },
+    {
+      "type": "ExternalReference",
+      "keys": [
+        {
+          "type": "Submodel",
+          "value": "https://example.com/ids/sm/9571_0251_8042_0319"
+        }
+      ]
+    },
+    {
+      "type": "ExternalReference",
+      "keys": [
+        {
+          "type": "Submodel",
+          "value": "https://example.com/ids/sm/2281_0251_8042_3093"
+        }
+      ]
+    },
+    {
+      "type": "ExternalReference",
+      "keys": [
+        {
+          "type": "Submodel",
+          "value": "https://example.com/ids/sm/4043_0251_8042_5646"
+        }
+      ]
+    }
+  ],
+  "modelType": "AssetAdministrationShell"
+}

@@ -5,13 +5,16 @@ import android.net.Uri
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Error
 import androidx.compose.material.icons.filled.Image
+import androidx.compose.material.icons.filled.Inventory2
 import androidx.compose.material.icons.filled.Public
 import androidx.compose.material.icons.filled.QrCodeScanner
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -29,6 +32,7 @@ import edu.kit.dppviewer.BuildConfig
 import edu.kit.dppviewer.R
 import edu.kit.dppviewer.data.client.util.AppUtil
 import edu.kit.dppviewer.data.client.DppServer
+import edu.kit.dppviewer.data.model.product.model.LocalDemoProduct
 import edu.kit.dppviewer.ui.BATTERY_SHELL_URL
 import edu.kit.dppviewer.ui.LocalSnackbarHostState
 import edu.kit.dppviewer.ui.PUZZLE_SHELL_URL
@@ -65,6 +69,7 @@ fun ImportBottomSheet(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
+                .verticalScroll(rememberScrollState())
                 .padding(16.dp)
         ) {
             Text(
@@ -163,6 +168,20 @@ fun ImportBottomSheet(
                 sheetState = sheetState,
                 scope = scope
             )
+            // The example products are bundled with the app, so they work without a server.
+            LocalDemoProduct.entries.forEach { demoProduct ->
+                Spacer(modifier = Modifier.height(16.dp))
+                OptionItem(
+                    icon = Icons.Default.Inventory2,
+                    text = stringResource(id = demoProduct.labelResId),
+                    onClick = {
+                        onEvent(ImportProductPageUiEvent.HideBottomSheet)
+                        onEvent(ImportProductPageUiEvent.LoadLocalProduct(demoProduct))
+                    },
+                    sheetState = sheetState,
+                    scope = scope
+                )
+            }
             Spacer(modifier = Modifier.height(16.dp))
             OptionItem(
                 icon = Icons.Default.Public,
