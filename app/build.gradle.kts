@@ -14,6 +14,33 @@ plugins {
     alias(libs.plugins.hilt.android)
 }
 
+/**
+ * Version of the release, taken from the git tag by the release workflow. Falls back to a
+ * development version, so a local build never depends on being tagged.
+ *
+ * `1.2.3` becomes version code `10203`, which keeps the codes ordered without an external counter
+ * and keeps the release reproducible: the same tag always produces the same APK.
+ */
+val dppVersionName: String = (findProperty("dpp.versionName") as String?) ?: "1.0"
+val dppVersionCode: Int = dppVersionName
+    .substringBefore('-')
+    .split('.')
+    .map { it.toIntOrNull() ?: 0 }
+    .let { parts ->
+        val (major, minor, patch) = List(3) { parts.getOrElse(it) { 0 } }
+        major * 10_000 + minor * 100 + patch
+    }
+    .coerceAtLeast(1)
+
+/**
+ * Keystore of the release signing config, provided by the release workflow through the environment.
+ * Without it the release build falls back to the debug key, which keeps local release builds
+ * working but produces an APK that must not be published.
+ */
+val releaseKeystore: File? = System.getenv("DPP_KEYSTORE_FILE")?.takeIf { it.isNotBlank() }
+    ?.let { rootProject.file(it) }
+    ?.takeIf { it.exists() }
+
 android {
     namespace = "edu.kit.dppviewer"
     compileSdk = 37
@@ -22,8 +49,8 @@ android {
         applicationId = "edu.kit.dppviewer"
         minSdk = 33
         targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = dppVersionCode
+        versionName = dppVersionName
 
         // Server the example products are loaded from. Override without touching the code, e.g. in
         // local.properties/gradle.properties or with -Pdpp.server.baseUrl=... , empty = no server.
@@ -41,6 +68,17 @@ android {
         compose = true
     }
 
+    signingConfigs {
+        releaseKeystore?.let { keystore ->
+            create("release") {
+                storeFile = keystore
+                storePassword = System.getenv("DPP_KEYSTORE_PASSWORD")
+                keyAlias = System.getenv("DPP_KEY_ALIAS")
+                keyPassword = System.getenv("DPP_KEY_PASSWORD")
+            }
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -50,7 +88,8 @@ android {
 
             )
             buildConfigField("Boolean", "INCLUDE_DEBUG_OPTIONS", "false")
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = signingConfigs.findByName("release")
+                ?: signingConfigs.getByName("debug")
         }
 
         debug {
