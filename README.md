@@ -43,3 +43,16 @@ We show these placeholder images to the user, if the DPP does not contain images
 | Battery | https://pixabay.com/vectors/battery-electrical-electricity-312747/ |
 | Smartphone | https://pixabay.com/illustrations/smartphone-phone-android-531250/ |
 | Other (Unknown) | https://pixabay.com/vectors/box-cardboard-cube-isometric-1299001/ |
+
+## Release
+
+Pushing a `v*` tag builds a signed APK, checks that two clean builds produce the same contents, and creates a **draft** release:
+
+```sh
+git tag -a v1.1.0 -m "v1.1.0"
+git push origin v1.1.0
+gh release edit v1.1.0 --draft=false   # publish once the artifacts look right
+```
+
+The tag sets the version: `v1.1.0` becomes `versionName 1.1.0` and `versionCode 10100`.
+Signing needs the `KEYSTORE_BASE64`, `KEYSTORE_PASSWORD`, `KEY_ALIAS` and `KEY_PASSWORD` repository secrets.
