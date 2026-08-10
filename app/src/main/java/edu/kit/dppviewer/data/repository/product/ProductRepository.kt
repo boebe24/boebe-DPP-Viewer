@@ -1,5 +1,6 @@
 package edu.kit.dppviewer.data.repository.product
 
+import edu.kit.dppviewer.data.model.product.model.LocalDemoProduct
 import edu.kit.dppviewer.data.model.product.model.Product
 import kotlinx.coroutines.flow.StateFlow
 
@@ -36,6 +37,13 @@ interface ProductRepository {
      * @param productId The ID of the product to load.
      */
     suspend fun loadProductFromId(productId: String)
+
+    /**
+     * Loads one of the example products bundled with the app. Needs no server.
+     *
+     * @param demoProduct The example product to load.
+     */
+    suspend fun loadLocalProduct(demoProduct: LocalDemoProduct)
 
     /**
      * Adds a product to a specified collection.

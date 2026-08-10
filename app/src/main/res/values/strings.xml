@@ -31,4 +31,8 @@
     <string name="camera_icon">Camera icon</string>
     <string name="qr_scanner_icon">QR Scanner Icon</string>
     <string name="error_occurred">Error occurred</string>
+    <string name="demo_product_battery">Example: Battery</string>
+    <string name="demo_product_smartphone">Example: Smartphone</string>
+    <string name="demo_product_textile">Example: Textile</string>
+    <string name="demo_product_puzzle">Example: Puzzle</string>
 </resources>

@@ -83,6 +83,14 @@ fun ImportProductPageScreen(
         }
     }
 
+    // Example products have no URL to show in the QR dialog, so they open the product page directly.
+    LaunchedEffect(uiState.openProductPage) {
+        if (uiState.openProductPage) {
+            onEvent(ImportProductPageUiEvent.ResetUiState)
+            onNavigateToProductPage()
+        }
+    }
+
     val context = LocalContext.current
     val singlePhotoPickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),

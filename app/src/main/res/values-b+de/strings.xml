@@ -29,4 +29,8 @@
     <string name="camera_icon">Kamerasymbol</string>
     <string name="qr_scanner_icon">QR Scanner Symbol</string>
     <string name="error_occurred">Fehler aufgetreten</string>
+    <string name="demo_product_battery">Beispiel: Batterie</string>
+    <string name="demo_product_smartphone">Beispiel: Smartphone</string>
+    <string name="demo_product_textile">Beispiel: Textil</string>
+    <string name="demo_product_puzzle">Beispiel: Puzzle</string>
 </resources>
