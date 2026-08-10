@@ -12,7 +12,9 @@ pluginManagement {
     }
 }
 plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version "0.10.0"
+    // Not from libs.versions.toml: the catalog is declared below in this same file, so its
+    // type-safe accessors do not exist yet when this block is evaluated.
+    id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
 }
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
