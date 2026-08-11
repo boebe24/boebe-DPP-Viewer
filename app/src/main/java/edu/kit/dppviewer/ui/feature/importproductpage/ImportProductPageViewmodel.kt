@@ -99,8 +99,8 @@ class ImportProductPageViewmodel @Inject constructor(
                 _uiState.value = _uiState.value.copy(url = event.url)
             }
 
-            is ImportProductPageUiEvent.ShowQRScanner -> {
-                _uiState.value = _uiState.value.copy(showQRScanner = true)
+            is ImportProductPageUiEvent.SetCameraPermission -> {
+                _uiState.value = _uiState.value.copy(cameraPermission = event.state)
             }
 
             is ImportProductPageUiEvent.ToggleFlash -> {

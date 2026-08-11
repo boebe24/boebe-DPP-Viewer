@@ -9,7 +9,7 @@ import edu.kit.dppviewer.data.model.product.model.LocalDemoProduct
  * Represents events that can occur in the Import Product Page.
  */
 sealed interface ImportProductPageUiEvent {
-    data object ShowQRScanner : ImportProductPageUiEvent
+    data class SetCameraPermission(val state: CameraPermissionState) : ImportProductPageUiEvent
     data object ShowBottomSheet : ImportProductPageUiEvent
     data object HideBottomSheet : ImportProductPageUiEvent
     data object ShowDialog : ImportProductPageUiEvent
