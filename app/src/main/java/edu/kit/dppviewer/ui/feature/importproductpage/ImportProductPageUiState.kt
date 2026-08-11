@@ -4,7 +4,7 @@ package edu.kit.dppviewer.ui.feature.importproductpage
  * Ui State for ImportProductPage
  */
 data class ImportProductPageUiState(
-    val showQRScanner: Boolean = false,
+    val cameraPermission: CameraPermissionState = CameraPermissionState.UNKNOWN,
     val showSheet: Boolean = false,
     val showDialog: Boolean = false,
     val isFlashOn: Boolean = false,

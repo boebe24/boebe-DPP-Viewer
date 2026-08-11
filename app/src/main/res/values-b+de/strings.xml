@@ -33,4 +33,7 @@
     <string name="demo_product_smartphone">Beispiel: Smartphone</string>
     <string name="demo_product_textile">Beispiel: Textil</string>
     <string name="demo_product_puzzle">Beispiel: Puzzle</string>
+    <string name="camera_permission_title">QR-Scanner nicht verfügbar</string>
+    <string name="camera_permission_explanation">Zum Scannen eines QR-Codes wird die Kamera benötigt. Produkte lassen sich weiterhin über ein Foto, eine URL oder eines der Beispiele importieren.</string>
+    <string name="open_app_settings">App-Einstellungen öffnen</string>
 </resources>

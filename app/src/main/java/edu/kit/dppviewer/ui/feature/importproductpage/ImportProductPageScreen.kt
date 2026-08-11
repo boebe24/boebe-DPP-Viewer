@@ -1,7 +1,11 @@
 package edu.kit.dppviewer.ui.feature.importproductpage
 
+import android.Manifest
+import android.content.Context
+import android.content.pm.PackageManager
 import android.graphics.ImageDecoder
 import android.util.Log
+import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Box
@@ -32,6 +36,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -42,7 +47,7 @@ import edu.kit.dppviewer.ui.feature.importproductpage.components.bottomsheet.Imp
 import edu.kit.dppviewer.ui.feature.importproductpage.components.bottomsheet.loadProductWithErrorHandling
 import edu.kit.dppviewer.ui.feature.importproductpage.components.enterurldialog.EnterURLDialog
 import edu.kit.dppviewer.ui.feature.importproductpage.components.opendialog.OpenDialog
-import edu.kit.dppviewer.ui.feature.importproductpage.components.permission.CameraPermissionScreen
+import edu.kit.dppviewer.ui.feature.importproductpage.components.permission.CameraUnavailablePanel
 import edu.kit.dppviewer.ui.feature.importproductpage.components.scanner.QRScanner
 import edu.kit.dppviewer.ui.feature.importproductpage.components.scanner.analyzeQRCode
 import edu.kit.dppviewer.ui.feature.importproductpage.components.topbar.ImportTopBar
@@ -68,7 +73,30 @@ fun ImportProductPageScreen(
     val scope = rememberCoroutineScope()
 
 
-    // Reset flashlight when app is resumed
+    val context = LocalContext.current
+    val activity = LocalActivity.current
+
+    val permissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        // The system stops showing its dialog once the user denied often enough. It reports that
+        // by no longer asking for a rationale, which is the only hint that settings are the only
+        // way left to grant the permission.
+        val showRationale = activity
+            ?.shouldShowRequestPermissionRationale(Manifest.permission.CAMERA) == true
+        onEvent(
+            ImportProductPageUiEvent.SetCameraPermission(
+                when {
+                    isGranted -> CameraPermissionState.GRANTED
+                    showRationale -> CameraPermissionState.DENIED
+                    else -> CameraPermissionState.PERMANENTLY_DENIED
+                }
+            )
+        )
+    }
+
+    // Reset flashlight when app is resumed, and pick up a permission granted in the settings
+    // while the app was in the background.
     val lifecycleOwner = LocalLifecycleOwner.current
     val lifecycleState by lifecycleOwner.lifecycle.currentStateFlow.collectAsState()
     LaunchedEffect(lifecycleState) {
@@ -79,6 +107,25 @@ fun ImportProductPageScreen(
             Lifecycle.State.STARTED -> {}
             Lifecycle.State.RESUMED -> {
                 onEvent(ImportProductPageUiEvent.OnResumed)
+                if (hasCameraPermission(context)) {
+                    onEvent(
+                        ImportProductPageUiEvent.SetCameraPermission(CameraPermissionState.GRANTED)
+                    )
+                }
+            }
+        }
+    }
+
+    // Ask once when the page is opened. Afterwards it takes an explicit tap, so the user is not
+    // trapped in a loop of system dialogs.
+    LaunchedEffect(Unit) {
+        if (uiState.cameraPermission == CameraPermissionState.UNKNOWN) {
+            if (hasCameraPermission(context)) {
+                onEvent(
+                    ImportProductPageUiEvent.SetCameraPermission(CameraPermissionState.GRANTED)
+                )
+            } else {
+                permissionLauncher.launch(Manifest.permission.CAMERA)
             }
         }
     }
@@ -91,7 +138,6 @@ fun ImportProductPageScreen(
         }
     }
 
-    val context = LocalContext.current
     val singlePhotoPickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
         onResult = { uri ->
@@ -186,30 +232,32 @@ fun ImportProductPageScreen(
         )
     }
 
-    if (!uiState.showQRScanner) {
-        CameraPermissionScreen(onPermissionGranted = { onEvent(ImportProductPageUiEvent.ShowQRScanner) })
-    } else {
-        /**
-         * Main content
-         */
-        Scaffold(
-            modifier = Modifier.fillMaxSize(),
-            topBar = {
-                ImportTopBar(
-                    isFlashOn = uiState.isFlashOn,
-                    hasFlash = hasFlashlight(context),
-                    onFlashClick = {
-                        onEvent(ImportProductPageUiEvent.ToggleFlash)
-                    }
-                )
-            },
-            snackbarHost = { SnackbarHost(snackbarHostState) },
-        ) { innerPadding ->
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .consumeWindowInsets(innerPadding)
-            ) {
+    /**
+     * Main content. The camera permission only decides whether the QR scanner or an explanation
+     * is shown, the import options below work without a camera.
+     */
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        topBar = {
+            ImportTopBar(
+                isFlashOn = uiState.isFlashOn,
+                // The torch is controlled through the camera of the scanner, so without the
+                // permission there is nothing the button could switch on.
+                hasFlash = uiState.cameraPermission == CameraPermissionState.GRANTED &&
+                        hasFlashlight(context),
+                onFlashClick = {
+                    onEvent(ImportProductPageUiEvent.ToggleFlash)
+                }
+            )
+        },
+        snackbarHost = { SnackbarHost(snackbarHostState) },
+    ) { innerPadding ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .consumeWindowInsets(innerPadding)
+        ) {
+            if (uiState.cameraPermission == CameraPermissionState.GRANTED) {
                 QRScanner(
                     modifier = Modifier.matchParentSize(),
                     onBarcodeDetected = { result ->
@@ -226,32 +274,47 @@ fun ImportProductPageScreen(
                         }
                     }, onEvent = onEvent
                 )
-                /**
-                 * Import Button
-                 */
-                FilledTonalButton(
-                    modifier = Modifier
-                        .align(alignment = Alignment.BottomCenter)
-                        .padding(bottom = 100.dp),
-                    onClick = {
-                        onEvent(ImportProductPageUiEvent.ShowBottomSheet)
+            } else {
+                CameraUnavailablePanel(
+                    permission = uiState.cameraPermission,
+                    onRequestPermission = {
+                        permissionLauncher.launch(Manifest.permission.CAMERA)
                     },
-                    colors = ButtonDefaults.filledTonalButtonColors(
-                        containerColor = ButtonDefaults.filledTonalButtonColors().containerColor
+                    modifier = Modifier.matchParentSize(),
+                )
+            }
+            /**
+             * Import Button
+             */
+            FilledTonalButton(
+                modifier = Modifier
+                    .align(alignment = Alignment.BottomCenter)
+                    .padding(bottom = 100.dp),
+                onClick = {
+                    onEvent(ImportProductPageUiEvent.ShowBottomSheet)
+                },
+                colors = ButtonDefaults.filledTonalButtonColors(
+                    containerColor = ButtonDefaults.filledTonalButtonColors().containerColor
+                )
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(
+                        modifier = Modifier.padding(end = 6.dp),
+                        imageVector = Icons.Outlined.AddCircleOutline,
+                        contentDescription = "import icon",
                     )
-                ) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(
-                            modifier = Modifier.padding(end = 6.dp),
-                            imageVector = Icons.Outlined.AddCircleOutline,
-                            contentDescription = "import icon",
-                        )
-                        Text(
-                            text = stringResource(R.string.import_button_text),
-                        )
-                    }
+                    Text(
+                        text = stringResource(R.string.import_button_text),
+                    )
                 }
             }
         }
     }
 }
+
+/** Whether the camera permission is currently granted. */
+private fun hasCameraPermission(context: Context): Boolean =
+    ContextCompat.checkSelfPermission(
+        context,
+        Manifest.permission.CAMERA
+    ) == PackageManager.PERMISSION_GRANTED
