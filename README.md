@@ -46,13 +46,21 @@ We show these placeholder images to the user, if the DPP does not contain images
 
 ## Release
 
-Pushing a `v*` tag builds a signed APK, checks that two clean builds produce the same contents, and creates a **draft** release:
+Releases are started from **Actions -> Release -> Run workflow**. Pick the branch, pick the `bump`
+(`patch`, `minor` or `major`) and decide on the **Dry run** checkbox:
+
+- **Dry run ticked** (the default): builds a signed APK, checks that two clean builds produce the
+  same contents, and attaches the APK plus `SHA256SUMS.txt` to the workflow run. No release, no tag.
+- **Dry run unticked**: the same build, plus a **draft** release with both files.
+
+The next version is derived from the highest existing tag or release, so `v1.1.0` with `minor`
+becomes `v1.2.0`. Publish the draft once the artifacts look right:
 
 ```sh
-git tag -a v1.1.0 -m "v1.1.0"
-git push origin v1.1.0
-gh release edit v1.1.0 --draft=false   # publish once the artifacts look right
+gh release edit v1.2.0 --draft=false
 ```
 
-The tag sets the version: `v1.1.0` becomes `versionName 1.1.0` and `versionCode 10100`.
+Publishing the draft is what creates the `v1.2.0` git tag; until then the tag does not exist.
+
+The version sets the app version: `v1.1.0` becomes `versionName 1.1.0` and `versionCode 10100`.
 Signing needs the `KEYSTORE_BASE64`, `KEYSTORE_PASSWORD`, `KEY_ALIAS` and `KEY_PASSWORD` repository secrets.

@@ -15,11 +15,11 @@ plugins {
 }
 
 /**
- * Version of the release, taken from the git tag by the release workflow. Falls back to a
- * development version, so a local build never depends on being tagged.
+ * Version of the release, passed in by the release workflow. Falls back to a development version,
+ * so a local build never depends on the workflow.
  *
  * `1.2.3` becomes version code `10203`, which keeps the codes ordered without an external counter
- * and keeps the release reproducible: the same tag always produces the same APK.
+ * and keeps the release reproducible: the same version always produces the same APK.
  */
 val dppVersionName: String = (findProperty("dpp.versionName") as String?) ?: "1.0"
 val dppVersionCode: Int = dppVersionName
