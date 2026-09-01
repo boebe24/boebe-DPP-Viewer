@@ -1,9 +1,20 @@
 name: Release
 
 on:
-  push:
-    tags:
-      - "v*"
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: "Version bump from the latest release"
+        type: choice
+        default: patch
+        options:
+          - patch
+          - minor
+          - major
+      dry_run:
+        description: "Dry run: build and verify, but create no release"
+        type: boolean
+        default: true
 
 permissions:
   contents: read
@@ -23,6 +34,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          fetch-depth: 0
           persist-credentials: false
 
       - name: Setup Java
@@ -42,15 +54,48 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@40fd30fb8d7440372e1316f5d1809ec01dcd3699 # v4.0.1
 
-      - name: Read version from tag
+      # The base version is taken from the releases as well as the tags. A draft release has no
+      # git tag yet, so looking at tags alone would recompute a version that is already taken and
+      # only fail later, at `gh release create`.
+      - name: Compute version
         id: version
         env:
-          TAG: ${{ github.ref_name }}
+          BUMP: ${{ inputs.bump }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
-          version="${TAG#v}"
+          # Fetched separately so that an API error fails the run here, instead of quietly
+          # lowering the base version to what the tags alone know about.
+          releases="$(gh release list --limit 100 --json tagName --jq '.[].tagName')"
+
+          # grep exits 1 when there is nothing to release from yet, hence the fallback.
+          base="$(
+            {
+              git tag --list 'v[0-9]*'
+              printf '%s\n' "$releases"
+            } | sed 's/^v//' | grep -E '^[0-9]+(\.[0-9]+){0,2}$' | sort -V | tail -n1 || true
+          )"
+          base="${base:-0.0.0}"
+
+          # A shorter tag such as v1.0 leaves the missing components empty, and 10# keeps a
+          # component such as 08 from being read as an invalid octal number.
+          IFS=. read -r major minor patch <<<"$base"
+          major="$((10#${major:-0}))" minor="$((10#${minor:-0}))" patch="$((10#${patch:-0}))"
+          case "$BUMP" in
+            major) version="$((major + 1)).0.0" ;;
+            minor) version="${major}.$((minor + 1)).0" ;;
+            patch) version="${major}.${minor}.$((patch + 1))" ;;
+            *) echo "::error::Unknown bump level $BUMP"; exit 1 ;;
+          esac
+
+          if git rev-parse -q --verify "refs/tags/v$version" >/dev/null \
+            || grep -qxF "v$version" <<<"$releases"; then
+            echo "::error::v$version already exists as a tag or release"
+            exit 1
+          fi
+
           echo "version=$version" >> "$GITHUB_OUTPUT"
-          echo "Building version $version"
+          echo "Bumping v$base to v$version ($BUMP)" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Decode keystore
         env:
@@ -119,6 +164,7 @@ jobs:
         env:
           VERSION: ${{ steps.version.outputs.version }}
           CONTENT_HASH: ${{ steps.repro.outputs.content_hash }}
+          DRY_RUN: ${{ inputs.dry_run }}
         run: |
           set -euo pipefail
           mkdir -p artifacts
@@ -126,7 +172,11 @@ jobs:
           cd artifacts
           sha256sum ./*.apk > SHA256SUMS.txt
           {
-            echo "## Release v$VERSION"
+            if [ "$DRY_RUN" = "true" ]; then
+              echo "## Release candidate v$VERSION"
+            else
+              echo "## Release v$VERSION"
+            fi
             echo
             echo "Built twice from a clean tree, both builds had identical APK contents."
             echo
@@ -136,15 +186,26 @@ jobs:
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
 
+      - name: Upload release candidate
+        if: ${{ inputs.dry_run }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: release-candidate-v${{ steps.version.outputs.version }}
+          path: artifacts/
+
+      # The draft records the tag name, the git tag itself is created by GitHub once the draft is
+      # published. --target pins it to the commit this run built.
       - name: Create draft release
+        if: ${{ ! inputs.dry_run }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TAG: ${{ github.ref_name }}
+          TAG: v${{ steps.version.outputs.version }}
           VERSION: ${{ steps.version.outputs.version }}
         run: |
           set -euo pipefail
           gh release create "$TAG" \
             --draft \
+            --target "$GITHUB_SHA" \
             --generate-notes \
             --title "$TAG" \
             "artifacts/dpp-viewer-$VERSION.apk" \
