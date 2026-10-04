@@ -105,6 +105,11 @@ android {
         unitTests {
             // Robolectric needs the packaged resources and assets, e.g. for the example products.
             isIncludeAndroidResources = true
+            all {
+                // Robolectric 4.17+ reflects into JDK internals (FileDescriptor via SharedSecrets),
+                // which JDK 17+ blocks unless the package is opened to it.
+                it.jvmArgs("--add-opens=java.base/jdk.internal.access=ALL-UNNAMED")
+            }
         }
     }
 
